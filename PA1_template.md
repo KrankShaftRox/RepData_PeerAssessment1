@@ -30,6 +30,10 @@ The following details are provided in this repository for the course "Reproducib
 The main aim is to read the data i, using read.csv() command, and then formatting the data so that it is in a suitable form for analysis. To store the data for further use, we create a variable outdat. It is important to check where one's working directory is prior to this step. We will also load all required packages into the system.
 ```{r, echo = TRUE}
 outdat <- read.csv("activity.csv", header = TRUE)
+```
+
+Using this command, we have loaded in the required dataset from the downloadable package. And now, we will load the packages.
+```{r}
 library(dplyr)
 library(ggplot2)
 library(lubridate)
