@@ -5,7 +5,6 @@ date: "28/05/2020"
 output:
   pdf_document: default
   html_document: default
- keep_md:true
 ---
 
 ```{r setup, include=FALSE}
@@ -74,7 +73,7 @@ ggplot(df, aes(x = as.numeric(Date), y = TotalSteps)) + geom_bar(stat = "identit
 ```
 
 
-![plot1](F:\Projects_R/plot1.png)
+![plot1](plot1.png)
 
 ### Step 3
 ### Mean and median number of steps taken each day
