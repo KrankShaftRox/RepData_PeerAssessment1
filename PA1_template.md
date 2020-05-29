@@ -130,7 +130,7 @@ dev.off()
 
 ![plot2](plot2.png)
 
-Thus, we have obtained a time series plot of the average steps taken every day.
+Thus, we have obtained a time series plot of the average steps taken every day. This can be used to understand the pattern in time variation of steps.
 
 ### Step 5
 ### The 5-minute interval that, on average, contains the maximum number of steps
