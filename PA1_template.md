@@ -4,7 +4,8 @@ author: "Ajay Menon"
 date: "28/05/2020"
 output:
   pdf_document: default
-  html_document: default
+  html_document:
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -42,16 +43,32 @@ library(lubridate)
 Now, we observe certain basic parameters of the data, and the classes of each column in the data frame.
 ```{r}
 dim(outdat)
-head(outdat)
+```
+```{r}
+## [1] 17568  3
+```
+```{r}
 names(outdat)
-sapply(outdat, class) #To observe the classes of each column of the data frame.
+```
+```{r}
+## [1] "steps"  "date"  "interval"
+```
+```{r}
+sapply(outdat, class) #To observe the classes of each column of the data frame
+```
+```{r}
+## [1] "Numeric"  "Character" "Numeric"
 ```
 
 Now, we will format the column with dates,  so that it becomes of class "date". To perform this, we use the package "lubridate".
 ```{r}
 outdat$date <- ymd(outdat$date)
-class(outdat$date) #You will notice that the output is now changed to the date class.
+class(outdat$date)
 ```
+```{r}
+## [1] "Date"
+```
+You will notice that the output is now changed to the date class.
 
 ### Step 2
 ### Histogram of the total number of steps taken each day
@@ -69,9 +86,7 @@ We will next plot a histogram using the gplot2 package that has the ggplot()func
 png("plot1.png")
 ggplot(df, aes(x = as.numeric(Date), y = TotalSteps)) + geom_bar(stat = "identity") + ylab("Total Steps") + xlab("Date") + ggtitle("Total Steps by date")
 dev.off()
-ggplot(df, aes(x = as.numeric(Date), y = TotalSteps)) + geom_bar(stat = "identity") + ylab("Total Steps") + xlab("Date") + ggtitle("Total Steps by date")
 ```
-
 
 ![plot1](plot1.png)
 
@@ -86,12 +101,21 @@ MeanMedSteps <- as.data.frame(cbind(Date, MeanSteps))
 MeanMedSteps <- as.data.frame(cbind(MeanMedSteps, MedianSteps))
 ```
 
-Now, we will check if the data is properly given, by obtaining the first 6 values of the data frame.
+Now, we will check if the data is properly given, by obtaining the mean and median values of the data frame.
 ```{r}
-head(MeanMedSteps)
+mean(MeanMedSteps$MeanSteps)
+```
+```{r}
+## [1] 10766.19
+```
+```{r}
+median(MeanMedSteps$MedianSteps)
+```
+```{r}
+## [1] 10765
 ```
 
-We have now obtained the mean and median values for the outdat data frame.
+We have now obtained the mean and median values for the outdat data frame. For all time, the mean number of steps are 10766.19 per day, and the median number of steps are 10765 per day.
 
 ### Step 4
 ### Time series plot of the average number of steps taken
@@ -102,8 +126,9 @@ Now, the next step is to construct a plot of the average steps taken every day. 
 png("plot2.png")
 ggplot(MeanMedSteps, aes(x = Date, y = MeanSteps)) + geom_bar(stat = "identity") + ylab("Average Steps") + xlab("Date") + ggtitle("Time Series of Average Steps by date")
 dev.off()
-ggplot(MeanMedSteps, aes(x = Date, y = MeanSteps)) + geom_bar(stat = "identity") + ylab("Average Steps") + xlab("Date") + ggtitle("Time Series of Average Steps by date")
 ```
+
+![plot2](plot2.png)
 
 Thus, we have obtained a time series plot of the average steps taken every day.
 
@@ -121,8 +146,12 @@ ggplot(maxInts, aes(x = Ints, y = IntSteps)) + geom_line() + ylab("Average Steps
 dev.off()
 maxInts <- arrange(maxInts, desc(IntSteps))
 maxInts[1, 1]
-ggplot(maxInts, aes(x = Ints, y = IntSteps)) + geom_line() + ylab("Average Steps") + xlab("Interval") + ggtitle("Time Series of Average Steps by interval")
 ```
+```{r}
+          [ ,1]
+## [1, ]   835    
+```
+![plot3](plot3.png)
 
 We can observe the output is the interval with the highest average number of steps, for all the dates given in the data. We also obtain a time series curve of the avergae number of steps covered for every interval, over the course of every day.
 
@@ -130,6 +159,8 @@ We can observe the output is the interval with the highest average number of ste
 ### Code to describe and show a strategy for imputing missing data
 
 The simplest method to impute missing values in the dataset is by replacing all the NA values with the mean or average of that particular interval and day. For this process, we will compute the average of 2 quantities- the average steps per day, and the average steps per interval.
+
+Then, we will replace all missing values with their respective average of both quantities.
 ```{r}
 outdat2 <- outdat
 outdat2$IntervalAverage <- rep(IntSteps, times = 61)
@@ -150,8 +181,8 @@ names(df2) <- c("Date", "TotalSteps2")
 png("plot4.png")
 ggplot(df2, aes(x = as.numeric(Date), y = TotalSteps2)) + geom_bar(stat = "identity") + ylab("Total Steps") + xlab("Date") + ggtitle("Total Steps after Imputation by date")
 dev.off()
-ggplot(df2, aes(x = as.numeric(Date), y = TotalSteps2)) + geom_bar(stat = "identity") + ylab("Total Steps") + xlab("Date") + ggtitle("Total Steps after Imputation by date")
 ```
+![plot4](plot4.png)
 
 Thus, we obtain the required graph that depicts how the value has changed with the missing value corrections. The new dataset is outdat2 that has the same dataset, but with all missing values filled in.
 
@@ -163,12 +194,21 @@ MeanMedSteps2 <- as.data.frame(cbind(Date, MeanSteps2))
 MeanMedSteps2 <- as.data.frame(cbind(MeanMedSteps2, MedianSteps2))
 ```
 
-Now, we will check if the data is properly given, by obtaining the first 6 values of the data frame.
+Now, we will check if the data is properly corrected, by obtaining the mean and median values of the data frame with the imputations.
 ```{r}
-head(MeanMedSteps2)
+mean(MeanMedSteps2$MeanSteps2)
+```
+```{r}
+## [1] 10766.19
+```
+```{r}
+median(MeanMedSteps2$MedianSteps2)
+```
+```{r}
+## [1] 10766.19
 ```
 
-We have now obtained the mean and median values for the outdat2 corrected data frame.
+We have now obtained the mean and median values for the outdat2 corrected data frame. Both these values are 10766.19 per day (mean and median)
 
 ### Step 8
 ### Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
@@ -191,8 +231,8 @@ df5 <- as.data.frame(rbind(df3, df4))
 png("plot5.png")
 ggplot(df5, aes(x = Interval, y = Average)) + geom_line() + ylab("Average Steps") + xlab("Interval") + ggtitle("Total Steps on Weekday and Weekends") + facet_grid(DayFactor ~ ., labeller = label_both)
 dev.off()
-ggplot(df5, aes(x = Interval, y = Average)) + geom_line() + ylab("Average Steps") + xlab("Interval") + ggtitle("Total Steps on Weekday and Weekends") + facet_grid(DayFactor ~ ., labeller = label_both)
 ```
+![plot5](plot5.png)
 
 And now, we have obtained the panel plot that compares the average steps between weekdays and weekends.
 
