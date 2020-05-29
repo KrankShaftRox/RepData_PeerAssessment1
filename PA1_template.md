@@ -72,6 +72,9 @@ dev.off()
 ggplot(df, aes(x = as.numeric(Date), y = TotalSteps)) + geom_bar(stat = "identity") + ylab("Total Steps") + xlab("Date") + ggtitle("Total Steps by date")
 ```
 
+
+![plot1](F:\Projects_R/plot1.png)
+
 ### Step 3
 ### Mean and median number of steps taken each day
 
