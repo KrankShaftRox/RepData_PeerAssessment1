@@ -5,6 +5,7 @@ date: "28/05/2020"
 output:
   pdf_document: default
   html_document: default
+ keep_md:true
 ---
 
 ```{r setup, include=FALSE}
