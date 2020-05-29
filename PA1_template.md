@@ -124,7 +124,7 @@ Now, the next step is to construct a plot of the average steps taken every day. 
 
 ```{r}
 png("plot2.png")
-ggplot(MeanMedSteps, aes(x = Date, y = MeanSteps)) + geom_bar(stat = "identity") + ylab("Average Steps") + xlab("Date") + ggtitle("Time Series of Average Steps by date")
+ggplot(MeanMedSteps, aes(x = Date, y = MeanSteps)) + geom_line() + ylab("Average Steps") + xlab("Date") + ggtitle("Time Series of Average Steps by date")
 dev.off()
 ```
 
